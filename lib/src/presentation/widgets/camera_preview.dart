@@ -41,6 +41,12 @@ class _CameraCameraPreviewState extends State<CameraCameraPreview> {
                 },
                 child: Stack(
                   children: [
+                    GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onDoubleTap: () {
+                            widget.controller.takePhoto();
+                          },
+                    ),
                     Center(child: widget.controller.buildPreview()),
                     if (widget.enableZoom)
                       Positioned(
@@ -94,7 +100,8 @@ class _CameraCameraPreviewState extends State<CameraCameraPreview> {
                           },
                           child: CircleAvatar(
                             radius: 30,
-                            backgroundColor: Colors.white,
+                            backgroundColor: Color.fromARGB(255,1,171,78),
+                            child: Icon(MfgLabs.camera, color: Colors.white,),
                           ),
                         ),
                       ),
