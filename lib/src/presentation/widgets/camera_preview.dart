@@ -40,7 +40,7 @@ class _CameraCameraPreviewState extends State<CameraCameraPreview> {
                 onScaleUpdate: (details) {
                   widget.controller.setZoomLevel(details.scale);
                 },
-                onDoubleTap: (details) {
+                onDoubleTap: () {
                   widget.controller.takePhoto();
                 },
                 child: Stack(
