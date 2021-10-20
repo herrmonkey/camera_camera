@@ -1,6 +1,8 @@
 import 'package:camera_camera/src/presentation/controller/camera_camera_controller.dart';
 import 'package:camera_camera/src/presentation/controller/camera_camera_status.dart';
 import 'package:fluttericon/mfg_labs_icons.dart';
+import 'package:hardware_buttons/hardware_buttons.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 class CameraCameraPreview extends StatefulWidget {
@@ -19,16 +21,23 @@ class CameraCameraPreview extends StatefulWidget {
 }
 
 class _CameraCameraPreviewState extends State<CameraCameraPreview> {
+  
+  StreamSubscription _volumeButtonSubscription;
+  
   @override
   void initState() {
     widget.controller.init();
     super.initState();
+    _volumeButtonSubscription = volumeButtonEvents.listen((VolumeButtonEvent event) {
+      widget.controller.takePhoto();
+    });
   }
 
   @override
   void dispose() {
     widget.controller.dispose();
     super.dispose();
+    _volumeButtonSubscription?.cancel();
   }
 
   @override
