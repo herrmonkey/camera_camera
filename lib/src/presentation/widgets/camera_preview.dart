@@ -40,6 +40,7 @@ class _CameraCameraPreviewState extends State<CameraCameraPreview> {
                 onScaleUpdate: (details) {
                   widget.controller.setZoomLevel(details.scale);
                 },
+                onTapDown: (details) => onViewFinderTap(details, constraints),
                 onDoubleTap: () {
                   widget.controller.takePhoto();
                 },
@@ -115,5 +116,20 @@ class _CameraCameraPreviewState extends State<CameraCameraPreview> {
                 color: Colors.black,
               )),
     );
+  }
+  
+  void onViewFinderTap(TapDownDetails details, BoxConstraints constraints) {
+    if (_controller == null) {
+      return;
+    }
+
+    final CameraController cameraController = _controller;
+
+    final offset = Offset(
+      details.localPosition.dx / constraints.maxWidth,
+      details.localPosition.dy / constraints.maxHeight,
+    );
+    widget.controller.setExposurePoint(offset);
+    widget.controller.setFocusPoint(offset);
   }
 }
