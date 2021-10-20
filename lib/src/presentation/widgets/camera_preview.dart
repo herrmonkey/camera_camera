@@ -1,6 +1,5 @@
 import 'package:camera_camera/src/presentation/controller/camera_camera_controller.dart';
 import 'package:camera_camera/src/presentation/controller/camera_camera_status.dart';
-import 'package:fluttericon/mfg_labs_icons.dart';
 import 'package:flutter/material.dart';
 
 class CameraCameraPreview extends StatefulWidget {
@@ -102,7 +101,7 @@ class _CameraCameraPreviewState extends State<CameraCameraPreview> {
                           child: CircleAvatar(
                             radius: 30,
                             backgroundColor: Color.fromARGB(255,1,171,78),
-                            child: Icon(MfgLabs.camera, color: Colors.white,),
+                            child: Icon(camera, color: Colors.white,),
                           ),
                         ),
                       ),
