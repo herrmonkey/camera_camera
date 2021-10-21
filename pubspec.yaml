@@ -10,7 +10,6 @@ environment:
 dependencies:
   camera: ^0.8.0-nullsafety.2
   fluttericon: ^2.0.0
-  hardware_buttons: ^1.0.0
   font_awesome_flutter: ^9.0.0-nullsafety
   rxdart: ^0.26.0
   flutter:
