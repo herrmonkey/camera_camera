@@ -123,6 +123,8 @@ class _CameraCameraPreviewState extends State<CameraCameraPreview> {
 
   void onViewFinderTap(TapDownDetails details, BoxConstraints constraints) {
 
+    widget.controller.setAutoFocusMode(false);
+
     final offset = Offset(
       details.localPosition.dx / constraints.maxWidth,
       details.localPosition.dy / constraints.maxHeight,

@@ -71,6 +71,17 @@ class CameraCameraController {
     setFlashMode(list[index]);
   }
 
+
+  void setAutoFocusMode(bool blAuto) async {
+    late FocusMode focusMode;
+    if(blAuto){
+      focusMode = FocusMode.auto;
+    }else{
+      focusMode = FocusMode.locked;
+    }
+    _controller.setFocusMode(focusMode);
+  }
+
   void setExposureMode(ExposureMode exposureMode) async {
     final camera = status.camera.copyWith(exposureMode: exposureMode);
     status = CameraCameraSuccess(camera: camera);
