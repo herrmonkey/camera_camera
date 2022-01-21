@@ -108,8 +108,8 @@ class _CameraCameraPreviewState extends State<CameraCameraPreview> {
                           },
                           child: CircleAvatar(
                             radius: 30,
-                            backgroundColor: Color.fromARGB(255,1,171,78),
-                            child: Icon(MfgLabs.camera, color: Colors.white,),
+                            backgroundColor: Colors.white,
+                            child: Icon(MfgLabs.camera, color: Colors.black,),
                           ),
                         ),
                       ),
