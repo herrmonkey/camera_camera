@@ -4,6 +4,9 @@ import 'package:fluttericon/mfg_labs_icons.dart';
 import 'package:hardware_buttons/hardware_buttons.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
+import 'package:camera_platform_interface/camera_platform_interface.dart';
 
 class CameraCameraPreview extends StatefulWidget {
   final void Function(String value)? onFile;
@@ -55,7 +58,25 @@ class _CameraCameraPreviewState extends State<CameraCameraPreview> {
                 },
                 child: Stack(
                   children: [
-                    Center(child: widget.controller.buildPreview()),
+                    Center(
+                      child: StreamBuilder<DeviceOrientationChangedEvent>(
+                        builder: (context, snapshot) {
+                          if (snapshot.data == null) {
+                            return _wrapInRotatedBox(
+                              child: widget.controller.buildPreview(),
+                              orentation:
+                                  widget.controller.getApplicableOrientation(),
+                            );
+                          }
+                          return _wrapInRotatedBox(
+                            child: widget.controller.buildPreview(),
+                            orentation: snapshot.data!.orientation,
+                          );
+                        },
+                        stream: CameraPlatform.instance
+                            .onDeviceOrientationChanged(),
+                      ),
+                    ),
                     if (widget.enableZoom)
                       Positioned(
                         bottom: 96,
@@ -126,6 +147,7 @@ class _CameraCameraPreviewState extends State<CameraCameraPreview> {
               )),
     );
   }
+
   
   void onViewFinderTap(TapDownDetails details, BoxConstraints constraints) {
     if (_controller == null) {
@@ -141,4 +163,29 @@ class _CameraCameraPreviewState extends State<CameraCameraPreview> {
     widget.controller.setExposurePoint(offset);
     widget.controller.setFocusPoint(offset);
   }
+
+
+  Widget _wrapInRotatedBox(
+      {required Widget child, required DeviceOrientation orentation}) {
+    if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
+      return child;
+    }
+
+    return RotatedBox(
+      quarterTurns: _getQuarterTurns(orentation),
+      child: child,
+    );
+  }
+
+  int _getQuarterTurns(DeviceOrientation orentation) {
+    return turns[orentation]!;
+  }
+
+  Map<DeviceOrientation, int> turns = {
+    DeviceOrientation.portraitUp: 0,
+    DeviceOrientation.landscapeRight: 1,
+    DeviceOrientation.portraitDown: 2,
+    DeviceOrientation.landscapeLeft: 3,
+  };
+
 }
